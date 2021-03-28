@@ -19,7 +19,9 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
+ORANGE = (255, 128, 0)
 WHITE = (255, 255, 255)
+CYAN = (0, 255, 255)
 BLUE_WHITE = (128, 128, 255)
 DARK_BLUE = (0, 0, 128)
 
@@ -28,6 +30,20 @@ class MatrixWeather(MatrixBase):
         self.number = number
         self.bSecretFileExists = True
         self.OWMError = False
+    
+    def colorRamp(self, temp):
+        if temp < 45:
+            return BLUE_WHITE
+        elif temp > 80:
+            return ORANGE
+        else:
+            if temp >= 65:
+                green = int(((temp - 65.0) / 15.0) * 128.0)
+                return tuple((255, 255 - green, 0))
+            else:
+                red = green = int(((temp - 45.0) / 20.0) * 128.0)
+                blue = int(((temp - 45.0) / 20.0) * 255.0)
+                return tuple((128 + red, 128 + green, 255 - blue))
 
     def createDay(self, day, doubleBuffer, color):
         font = graphics.Font()
@@ -153,8 +169,8 @@ class MatrixWeather(MatrixBase):
         self.font.LoadFont('/home/pi/rpi-rgb-led-matrix/fonts/10x20.bdf')
         self.font2 = graphics.Font()
         self.font2.LoadFont('/home/pi/rpi-rgb-led-matrix/fonts/6x13.bdf')
-        graphics.DrawText(doubleBuffer, self.font, 35, 18, graphics.Color(*RED), str(currentTemp)+"\u00B0")
-        graphics.DrawText(doubleBuffer, self.font2, 0, 30, graphics.Color(*GREEN), self.weatherTable[wid][1])
+        graphics.DrawText(doubleBuffer, self.font, 35, 18, graphics.Color(*self.colorRamp(currentTemp)), str(currentTemp)+"\u00B0")
+        graphics.DrawText(doubleBuffer, self.font2, 0, 30, graphics.Color(*WHITE), self.weatherTable[wid][1])
         return
 
     def run(self, doubleBuffer):
@@ -178,7 +194,7 @@ class MatrixWeather(MatrixBase):
             image = Image.open(icon).convert('RGB')
             doubleBuffer.Clear()
             doubleBuffer.SetImage(image,0)
-            graphics.DrawText(doubleBuffer, self.font, 35, 18, graphics.Color(*RED), str(currentTemp)+"\u00B0")
-            graphics.DrawText(doubleBuffer, self.font2, 0, 30, graphics.Color(*GREEN), self.weatherTable[wid][1])
+            graphics.DrawText(doubleBuffer, self.font, 35, 18, graphics.Color(*self.colorRamp(currentTemp)), str(currentTemp)+"\u00B0")
+            graphics.DrawText(doubleBuffer, self.font2, 0, 30, graphics.Color(*WHITE), self.weatherTable[wid][1])
             return True
         return False

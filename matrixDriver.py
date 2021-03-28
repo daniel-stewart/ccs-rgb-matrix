@@ -55,7 +55,9 @@ class MatrixDriver(object):
             (MatrixImagePlayground, (2021, 1, 1), (2021, 12, 31), (8, 15), (23, 59), 2, 1, 0),
             (MatrixImagePlayground, (2021, 1, 1), (2021, 12, 31), (11, 15), (12, 45), 1, 2, -2),
             (MatrixScroller, (2021, 1, 1), (2021, 12, 31), (8, 15), (23, 59), 2, 3, 0),
-            (MatrixSpriteViewer, (2021, 1, 1), (2021, 12, 31), (7, 0), (7, 30), 1, 1, 0)
+            (MatrixSpriteViewer, (2021, 1, 1), (2021, 12, 31), (7, 0), (7, 45), 1, 1, -1),
+            (MatrixSpriteViewer, (2021, 1, 1), (2021, 12, 31), (9, 0), (23, 59), 2, 1, -1),
+            (MatrixGifPlayer, (2021, 1, 1), (2021, 12, 31), (9, 0), (23, 59), 3, 1, -1)
         ]
         self.entryNumber = 0
         self.count = 0
@@ -64,7 +66,7 @@ class MatrixDriver(object):
         now = datetime.now()
         hour = now.timetuple()[3]
         # Turn off the screen between 10 PM and 7 AM
-        if hour >= 22 or hour <= 6:
+        if hour >= 24 or hour <= 6:
             self.matrixBase = MatrixBase()
             self.matrix.Clear()
             self.doubleBuffer = self.matrix.SwapOnVSync(self.doubleBuffer)
@@ -115,8 +117,8 @@ class MatrixDriver(object):
         #self.matrixBase = MatrixSprite(3)
         #self.matrixBase = MatrixImagePlayground(1)
         #self.matrixBase = MatrixScroller(0)
-        self.matrixBase = MatrixSpriteViewer(0)
-        #self.matrixBase = MatrixGifPlayer(0)
+        self.matrixBase = MatrixSpriteViewer(random.randint(0,4))
+        #self.matrixBase = MatrixGifPlayer(-1)
         #self.matrixBase = MatrixStayOnTarget(0)
         #self.matrixBase = MatrixWeather(0)
         #self.matrixPointer = self.matrixBase

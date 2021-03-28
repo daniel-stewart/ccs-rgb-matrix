@@ -16,7 +16,10 @@ A tuple with row elements, each element is the number of icons in that row.
 '''
 class MatrixSpriteViewer(MatrixBase):
     def __init__(self, level):
-        self.level = level
+        if level == -1:
+            self.level = random.randint(0,4)
+        else:
+            self.level = level
 
     def setBackground(file, size, x, y, doubleBuffer):
         backgroundImage = Image.open(file).convert('RGBA')
@@ -25,82 +28,82 @@ class MatrixSpriteViewer(MatrixBase):
                         (self.set+1) * self.spriteSheets[self.level][1][1]))
     
     def loadImages(self):
-        self.grassLevel = 3
+        self.grassLevel = 6
         self.grassIndex = 1    # This is basically the X index of the image set
         self.grassSet = 1      # This is basically the Y index of the image set
         backgroundImage = Image.open(self.spriteSheets[self.grassLevel][0]).convert('RGBA')
         self.grassImage = backgroundImage.crop((self.grassIndex * self.spriteSheets[self.grassLevel][1][0], self.grassSet * self.spriteSheets[self.grassLevel][1][1],
                         (self.grassIndex + 1) * self.spriteSheets[self.grassLevel][1][0],
                         (self.grassSet+1) * self.spriteSheets[self.grassLevel][1][1]))
-        stumpLevel = 3
+        stumpLevel = 6
         stumpIndex = 2
         stumpSet = 1
         self.stumpImage = backgroundImage.crop((stumpIndex * self.spriteSheets[stumpLevel][1][0], stumpSet * self.spriteSheets[stumpLevel][1][1],
                         (stumpIndex + 1) * self.spriteSheets[stumpLevel][1][0],
                         (stumpSet+1) * self.spriteSheets[stumpLevel][1][1]))
-        treeLevel = 3
+        treeLevel = 6
         treeIndex = 1
         treeSet = 5
         self.treeImage = backgroundImage.crop((treeIndex * self.spriteSheets[treeLevel][1][0], treeSet * self.spriteSheets[treeLevel][1][1],
                         (treeIndex + 2) * self.spriteSheets[treeLevel][1][0],
                         (treeSet+2) * self.spriteSheets[treeLevel][1][1]))
         
-        bushLevel = 6
+        bushLevel = 9
         bushIndex = 2
         bushSet = 3
         bushImage = Image.open(self.spriteSheets[bushLevel][0]).convert('RGBA')
         self.bushImage = bushImage.crop((bushIndex * self.spriteSheets[bushLevel][1][0], bushSet * self.spriteSheets[bushLevel][1][1],
                         (bushIndex + 1) * self.spriteSheets[bushLevel][1][0],
                         (bushSet+1) * self.spriteSheets[bushLevel][1][1]))
-        stoneLevel = 6
+        stoneLevel = 9
         stoneIndex = 3
         stoneSet = 3
         stoneImage = Image.open(self.spriteSheets[stoneLevel][0]).convert('RGBA')
         self.stoneImage = stoneImage.crop((stoneIndex * self.spriteSheets[stoneLevel][1][0], stoneSet * self.spriteSheets[stoneLevel][1][1],
                         (stoneIndex + 1) * self.spriteSheets[stoneLevel][1][0],
                         (stoneSet+1) * self.spriteSheets[stoneLevel][1][1]))
-        bigtreeLevel = 6
+        bigtreeLevel = 9
         bigtreeIndex = 0
         bigtreeSet = 2
         bigtreeImage = Image.open(self.spriteSheets[bigtreeLevel][0]).convert('RGBA')
         self.bigtreeImage = bigtreeImage.crop((bigtreeIndex * self.spriteSheets[bigtreeLevel][1][0], bigtreeSet * self.spriteSheets[bigtreeLevel][1][1],
                         (bigtreeIndex + 2) * self.spriteSheets[bigtreeLevel][1][0],
                         (bigtreeSet+2) * self.spriteSheets[bigtreeLevel][1][1]))
-        mushroomLevel = 3
+        mushroomLevel = 6
         mushroomIndex = 2
         mushroomSet = 2
         mushroomImage = Image.open(self.spriteSheets[mushroomLevel][0]).convert('RGBA')
         self.mushroomImage = mushroomImage.crop((mushroomIndex * self.spriteSheets[mushroomLevel][1][0], mushroomSet * self.spriteSheets[mushroomLevel][1][1],
                         (mushroomIndex + 1) * self.spriteSheets[mushroomLevel][1][0],
                         (mushroomSet+1) * self.spriteSheets[mushroomLevel][1][1]))
-        altgrassLevel = 3
+        altgrassLevel = 6
         altgrassIndex = 0
         altgrassSet = 1
         altgrassImage = Image.open(self.spriteSheets[altgrassLevel][0]).convert('RGBA')
         self.altgrassImage = altgrassImage.crop((altgrassIndex * self.spriteSheets[altgrassLevel][1][0], altgrassSet * self.spriteSheets[altgrassLevel][1][1],
                         (altgrassIndex + 1) * self.spriteSheets[altgrassLevel][1][0],
                         (altgrassSet+1) * self.spriteSheets[altgrassLevel][1][1]))
-        barrelLevel = 3
+        barrelLevel = 6
         barrelIndex = 0
         barrelSet = 0
         barrelImage = Image.open(self.spriteSheets[barrelLevel][0]).convert('RGBA')
         self.barrelImage = barrelImage.crop((barrelIndex * self.spriteSheets[barrelLevel][1][0], barrelSet * self.spriteSheets[barrelLevel][1][1],
                         (barrelIndex + 1) * self.spriteSheets[barrelLevel][1][0],
                         (barrelSet+1) * self.spriteSheets[barrelLevel][1][1]))
-        flowerLevel = 3
+        flowerLevel = 6
         flowerIndex = 1
         flowerSet = 2
         flowerImage = Image.open(self.spriteSheets[flowerLevel][0]).convert('RGBA')
         self.flowerImage = flowerImage.crop((flowerIndex * self.spriteSheets[flowerLevel][1][0], flowerSet * self.spriteSheets[flowerLevel][1][1],
                         (flowerIndex + 1) * self.spriteSheets[flowerLevel][1][0],
                         (flowerSet+1) * self.spriteSheets[flowerLevel][1][1]))
-        bigmushroomLevel = 3
+        bigmushroomLevel = 6
         bigmushroomIndex = 0
         bigmushroomSet = 7
         self.bigmushroomImage = backgroundImage.crop((bigmushroomIndex * self.spriteSheets[bigmushroomLevel][1][0], bigmushroomSet * self.spriteSheets[bigmushroomLevel][1][1],
                         (bigmushroomIndex + 2) * self.spriteSheets[bigmushroomLevel][1][0],
                         (bigmushroomSet+2) * self.spriteSheets[bigmushroomLevel][1][1]))
-        emptyLevel = 3
+        emptyLevel = 6
         emptyIndex = 3
         emptySet = 5
         self.emptyImage = backgroundImage.crop((emptyIndex * self.spriteSheets[emptyLevel][1][0], emptySet * self.spriteSheets[emptyLevel][1][1],
@@ -133,6 +136,9 @@ class MatrixSpriteViewer(MatrixBase):
         self.spriteSheets = [
             ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Adventurer_Sprite_Sheet_v1.1.png', (32,32), (13, 8, 10, 10, 10, 6, 4, 7, 13, 8, 10, 10, 10, 6, 4, 7)),
             ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Archaeologist_Sprite_Sheet.png', (64,32), (8, 8, 7, 6, 8, 4, 5)),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Adventurer_Female_Sprite_Sheet.png', (32, 32), (6, 8, 9, 4, 7, 9, 6)),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Dwarf_Sprite_Sheet.png', (64,32), (5, 8, 7, 6, 2, 5, 4, 7)),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/SpaceSoldierSpriteSheet.png', (32, 32), (4, 8, 5, 3, 7)),
             ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Torch.png', (8, 16), (10,)),
             ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Decorations.png', (16, 16), (4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)),
             ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Banner.png', (32,32), (4, 4)),

@@ -3,6 +3,7 @@ from rgbmatrix import graphics
 from matrixBase import MatrixBase
 from datetime import datetime
 import time
+import random
 
 class MatrixGifPlayer(MatrixBase):
     def __init__(self, level):
@@ -24,7 +25,43 @@ class MatrixGifPlayer(MatrixBase):
             #'/home/pi/ccs-rgb-matrix/icons/angel.gif',
             #'/home/pi/ccs-rgb-matrix/icons/laughing.gif',
             #'/home/pi/ccs-rgb-matrix/icons/wink.gif',
+            '/home/pi/ccs-rgb-matrix/icons/candy.gif',
+            '/home/pi/ccs-rgb-matrix/icons/star.gif',
+            '/home/pi/ccs-rgb-matrix/icons/wifi.gif',
+            '/home/pi/ccs-rgb-matrix/icons/explode2.gif',
+            '/home/pi/ccs-rgb-matrix/icons/0rain.gif',
+            '/home/pi/ccs-rgb-matrix/icons/0robotfactory.gif',
+            '/home/pi/ccs-rgb-matrix/icons/0tree.gif',
+            '/home/pi/ccs-rgb-matrix/icons/amigaball.gif',
+            '/home/pi/ccs-rgb-matrix/icons/amigaball2.gif',
+            '/home/pi/ccs-rgb-matrix/icons/balloon2.gif',
+            '/home/pi/ccs-rgb-matrix/icons/bike.gif',
+            '/home/pi/ccs-rgb-matrix/icons/bluerobin.gif',
+            '/home/pi/ccs-rgb-matrix/icons/bubbles.gif',
+            '/home/pi/ccs-rgb-matrix/icons/demo.gif',
+            '/home/pi/ccs-rgb-matrix/icons/earth.gif',
+            '/home/pi/ccs-rgb-matrix/icons/gameboy1.gif',
+            '/home/pi/ccs-rgb-matrix/icons/gameboy2.gif',
+            '/home/pi/ccs-rgb-matrix/icons/heartbeat.gif',
+            '/home/pi/ccs-rgb-matrix/icons/mfrog_mixedmedia.gif',
+            '/home/pi/ccs-rgb-matrix/icons/orangeball.gif',
+            '/home/pi/ccs-rgb-matrix/icons/pong.gif',
+            '/home/pi/ccs-rgb-matrix/icons/rainfast.gif',
+            '/home/pi/ccs-rgb-matrix/icons/rainmbowcube.gif',
+            '/home/pi/ccs-rgb-matrix/icons/rspray.gif',
+            '/home/pi/ccs-rgb-matrix/icons/sakura.gif',
+            '/home/pi/ccs-rgb-matrix/icons/shuttle.gif',
+            '/home/pi/ccs-rgb-matrix/icons/squid.gif',
+            '/home/pi/ccs-rgb-matrix/icons/sunny.gif',
+            '/home/pi/ccs-rgb-matrix/icons/treasurechest.gif',
+            '/home/pi/ccs-rgb-matrix/icons/triball.gif',
+            '/home/pi/ccs-rgb-matrix/icons/usnowy.gif',
+            '/home/pi/ccs-rgb-matrix/icons/water_tub.gif',
+            '/home/pi/ccs-rgb-matrix/icons/windmill.gif',
+            '/home/pi/ccs-rgb-matrix/icons/worm.gif',
         ]
+        if self.level == -1:
+            self.level = random.randint(0, len(self.gifList)-1)
         self.width = width
         self.height = height
         self.gif = Image.open(self.gifList[self.level%len(self.gifList)])
@@ -33,7 +70,10 @@ class MatrixGifPlayer(MatrixBase):
             print("Number of frames: {}".format(self.gif.n_frames))
             baseImage.alpha_composite(self.gif.convert('RGBA'), (0,0))
         else:
-            baseImage = Image.new('RGBA', (self.width, self.height), (255,255,255,0))
+            if self.level > 8:
+                baseImage = Image.new('RGBA', (self.width, self.height), (0,0,0,0))
+            else:
+                baseImage = Image.new('RGBA', (self.width, self.height), (255,255,255,0))
             print("Number of frames: {}".format(self.gif.n_frames))
             baseImage.alpha_composite(self.gif.convert('RGBA'), (16,0))
         self.now = time.monotonic()
@@ -53,7 +93,10 @@ class MatrixGifPlayer(MatrixBase):
                 baseImage = Image.new('RGBA', (self.width, self.height), (0,0,0,0))
                 baseImage.alpha_composite(self.gif.convert('RGBA'), (0,0))
             else:
-                baseImage = Image.new('RGBA', (self.width, self.height), (255,255,255,0))
+                if self.level > 8:
+                    baseImage = Image.new('RGBA', (self.width, self.height), (0,0,0,0))
+                else:
+                    baseImage = Image.new('RGBA', (self.width, self.height), (255,255,255,0))
                 baseImage.alpha_composite(self.gif.convert('RGBA'), (16,0))
             doubleBuffer.SetImage(baseImage.convert('RGB'))
             return True
