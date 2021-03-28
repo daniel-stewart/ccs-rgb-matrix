@@ -59,6 +59,9 @@ class MatrixGifPlayer(MatrixBase):
             '/home/pi/ccs-rgb-matrix/icons/water_tub.gif',
             '/home/pi/ccs-rgb-matrix/icons/windmill.gif',
             '/home/pi/ccs-rgb-matrix/icons/worm.gif',
+            '/home/pi/ccs-rgb-matrix/icons/fire64x32RGB.gif',
+            '/home/pi/ccs-rgb-matrix/icons/invadpt2.gif',
+            '/home/pi/ccs-rgb-matrix/icons/galaxian.gif',
         ]
         if self.level == -1:
             self.level = random.randint(0, len(self.gifList)-1)
