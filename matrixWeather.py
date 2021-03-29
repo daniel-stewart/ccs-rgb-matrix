@@ -114,10 +114,7 @@ class MatrixWeather(MatrixBase):
             try:
                 self.owm = OWM(secrets['owmid'])
                 self.mgr = self.owm.weather_manager()
-            except APIRequestError as e:
-                self.OWMError = True
-            except APIResponseError as e:
-                self.OWMError = True
+                observation = self.mgr.weather_at_place(secrets['owm_place'])
             except Exception as err:
                 print(f'Other error occurred: {err}')
                 self.OWMError = True
@@ -135,7 +132,6 @@ class MatrixWeather(MatrixBase):
                 graphics.DrawLine(doubleBuffer, 2, 30, 61, 30, white)
                 graphics.DrawLine(doubleBuffer, 2, 31, 61, 31, white)
                 return
-            observation = self.mgr.weather_at_place(secrets['owm_place'])
             w = observation.weather
             wid = w.weather_code
             status = w.detailed_status
@@ -179,7 +175,25 @@ class MatrixWeather(MatrixBase):
         if self.OWMError:
             return False
         if self.now < datetime.now():
-            observation = self.mgr.weather_at_place(secrets['owm_place'])
+            try:
+                observation = self.mgr.weather_at_place(secrets['owm_place'])
+            except Exception as err:
+                print(f'Other error occurred: {err}')
+                self.OWMError = True
+                f = graphics.Font()
+                f.LoadFont('/home/pi/rpi-rgb-led-matrix/fonts/10x20.bdf')
+                white = graphics.Color(*WHITE)
+                green = graphics.Color(*GREEN)
+                graphics.DrawText(doubleBuffer, f, 8,22, green, "Hello")
+                graphics.DrawLine(doubleBuffer, 0, 0, 0, 31, white)
+                graphics.DrawLine(doubleBuffer, 1, 0, 1, 31, white)
+                graphics.DrawLine(doubleBuffer, 63, 0, 63, 31, white)
+                graphics.DrawLine(doubleBuffer, 62, 0, 62, 31, white)
+                graphics.DrawLine(doubleBuffer, 2, 0, 61, 0, white)
+                graphics.DrawLine(doubleBuffer, 2, 1, 61, 1, white)
+                graphics.DrawLine(doubleBuffer, 2, 30, 61, 30, white)
+                graphics.DrawLine(doubleBuffer, 2, 31, 61, 31, white)
+                return
             w = observation.weather
             status = w.detailed_status
             wid = w.weather_code
