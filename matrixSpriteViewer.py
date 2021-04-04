@@ -16,6 +16,7 @@ A tuple with row elements, each element is the number of icons in that row.
 '''
 class MatrixSpriteViewer(MatrixBase):
     def __init__(self, level):
+        self.origLevel = level
         if level == -1:
             self.level = random.randint(0,4)
         else:
@@ -247,6 +248,14 @@ class MatrixSpriteViewer(MatrixBase):
 
         doubleBuffer.SetImage(baseImage)
         self.now = time.monotonic()
+        return
+    
+    def restart(self, doubleBuffer):
+        if self.origLevel == -1:
+            self.level = random.randint(0,4)
+            self.image = Image.open(self.spriteSheets[self.level][0]).convert('RGBA')
+            self.x = -self.spriteSheets[self.level][1][0]   # This puts the character off the screen at the beginning.
+            self.y = 0
         
     def run(self, doubleBuffer):
         if self.error:

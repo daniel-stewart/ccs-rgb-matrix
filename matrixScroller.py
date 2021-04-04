@@ -6,6 +6,7 @@ from matrixBase import MatrixBase
 YELLOW = (255, 255, 0)
 BLUEWHITE = (128, 128, 255)
 GREEN = (0, 255, 0)
+REDISH = (255, 128, 128)
 
 class MatrixScroller(MatrixBase):
     def __init__(self, level):
@@ -15,10 +16,13 @@ class MatrixScroller(MatrixBase):
         if self.level == 0:
                 self.font1 = graphics.Font()
                 self.font2 = graphics.Font()
-                self.font1.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/extra/LinLibertineB-24.bdf")
-                self.font2.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/extra/RingbearerMedium-24.bdf")
                 self.font3 = graphics.Font()
+                self.font4 = graphics.Font()
+                #self.font1.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/extra/Mermaid-Bold-16.bdf")
+                self.font1.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/extra/75dpi/timR14.bdf")
+                self.font2.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/extra/RingbearerMedium-12.bdf")
                 self.font3.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/10x20.bdf")
+                self.font4.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/extra/75dpi/helvR12.bdf")
                 self.textColor = graphics.Color(255, 255, 0)
                 self.pos = double_buffer.width
                 self.index = 0
@@ -26,8 +30,9 @@ class MatrixScroller(MatrixBase):
                                 ("There    is    some   good   in   this   world,   and    it's   worth   fighting   for.", self.font2, YELLOW),
                                 ("Made by the CCS Computer Club", self.font1, BLUEWHITE),
                                 ("Commit your work to the Lord, and your plans will be established. - Proverbs 16:3", self.font1, YELLOW),
-                                ("For God so loved the world, that He gave His only Son, that whoever believes in him should not perish but have eternal life", self.font1, GREEN),
-                                ("Made by the Computer Club. You should join us!", self.font1, BLUEWHITE)
+                                ("For God so loved the world, that He gave His only Son, that whoever believes in him should not perish but have eternal life", self.font3, GREEN),
+                                ("Made by the Computer Club. You should join us!", self.font1, BLUEWHITE),
+                                ("Take my instruction instead of silver, and knowledge rather than choice gold, for wisdom is better than jewels, and all that you may desire cannot compare with her. - Proverbs 8:10-11", self.font4, REDISH)
                             ]
                 print("Len of my_text:", len(self.my_text))
                 self.length = len(self.my_text)

@@ -8,6 +8,7 @@ import random
 class MatrixGifPlayer(MatrixBase):
     def __init__(self, level):
         self.level = level
+        self.origLevel = level
     
     def initialize(self, width, height, doubleBuffer):
         self.gifList = [
@@ -67,6 +68,25 @@ class MatrixGifPlayer(MatrixBase):
             self.level = random.randint(0, len(self.gifList)-1)
         self.width = width
         self.height = height
+        self.gif = Image.open(self.gifList[self.level%len(self.gifList)])
+        if self.gif.width != 32:
+            baseImage = Image.new('RGBA', (self.width, self.height), (0,0,0,0))
+            print("Number of frames: {}".format(self.gif.n_frames))
+            baseImage.alpha_composite(self.gif.convert('RGBA'), (0,0))
+        else:
+            if self.level > 8:
+                baseImage = Image.new('RGBA', (self.width, self.height), (0,0,0,0))
+            else:
+                baseImage = Image.new('RGBA', (self.width, self.height), (255,255,255,0))
+            print("Number of frames: {}".format(self.gif.n_frames))
+            baseImage.alpha_composite(self.gif.convert('RGBA'), (16,0))
+        self.now = time.monotonic()
+        doubleBuffer.SetImage(baseImage.convert('RGB'))
+        return
+    
+    def restart(self, doubleBuffer):
+        if self.origLevel == -1:
+            self.level = random.randint(0, len(self.gifList)-1)
         self.gif = Image.open(self.gifList[self.level%len(self.gifList)])
         if self.gif.width != 32:
             baseImage = Image.new('RGBA', (self.width, self.height), (0,0,0,0))

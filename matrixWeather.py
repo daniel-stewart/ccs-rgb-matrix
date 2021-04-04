@@ -133,10 +133,10 @@ class MatrixWeather(MatrixBase):
                 graphics.DrawLine(doubleBuffer, 2, 31, 61, 31, white)
                 return
             w = observation.weather
-            wid = w.weather_code
+            self.wid = w.weather_code
             status = w.detailed_status
             temp = w.temperature('fahrenheit') # {'temp_max':10.5, 'temp':9.7, 'temp_min':4.5}
-            currentTemp = round(temp['temp'])
+            self.currentTemp = round(temp['temp'])
         else:
             f = graphics.Font()
             f.LoadFont('/home/pi/rpi-rgb-led-matrix/fonts/10x20.bdf')
@@ -153,11 +153,11 @@ class MatrixWeather(MatrixBase):
             return
 
         self.now = datetime.now() + timedelta(minutes=10)
-        print(wid)
+        print(self.wid)
         print(status)
-        print(currentTemp)
-        print(self.weatherTable[wid][2])
-        icon = self.iconPathPrefix + self.weatherTable[wid][0]
+        print(self.currentTemp)
+        print(self.weatherTable[self.wid][2])
+        icon = self.iconPathPrefix + self.weatherTable[self.wid][0]
         image = Image.open(icon).convert('RGB')
         doubleBuffer.Clear()
         doubleBuffer.SetImage(image,0)
@@ -165,8 +165,89 @@ class MatrixWeather(MatrixBase):
         self.font.LoadFont('/home/pi/rpi-rgb-led-matrix/fonts/10x20.bdf')
         self.font2 = graphics.Font()
         self.font2.LoadFont('/home/pi/rpi-rgb-led-matrix/fonts/6x13.bdf')
-        graphics.DrawText(doubleBuffer, self.font, 35, 18, graphics.Color(*self.colorRamp(currentTemp)), str(currentTemp)+"\u00B0")
-        graphics.DrawText(doubleBuffer, self.font2, 0, 30, graphics.Color(*WHITE), self.weatherTable[wid][1])
+        graphics.DrawText(doubleBuffer, self.font, 35, 18, graphics.Color(*self.colorRamp(self.currentTemp)), str(self.currentTemp)+"\u00B0")
+        graphics.DrawText(doubleBuffer, self.font2, 0, 30, graphics.Color(*WHITE), self.weatherTable[self.wid][1])
+        return
+    
+    def restart(self, doubleBuffer):
+        if not self.bSecretFileExists:
+            f = graphics.Font()
+            f.LoadFont('/home/pi/rpi-rgb-led-matrix/fonts/10x20.bdf')
+            white = graphics.Color(*WHITE)
+            graphics.DrawText(doubleBuffer, f, 8,22, white, "Hello")
+            graphics.DrawLine(doubleBuffer, 0, 0, 0, 31, white)
+            graphics.DrawLine(doubleBuffer, 1, 0, 1, 31, white)
+            graphics.DrawLine(doubleBuffer, 63, 0, 63, 31, white)
+            graphics.DrawLine(doubleBuffer, 62, 0, 62, 31, white)
+            graphics.DrawLine(doubleBuffer, 2, 0, 61, 0, white)
+            graphics.DrawLine(doubleBuffer, 2, 1, 61, 1, white)
+            graphics.DrawLine(doubleBuffer, 2, 30, 61, 30, white)
+            graphics.DrawLine(doubleBuffer, 2, 31, 61, 31, white)
+            return
+        if self.OWMError:
+            self.OWMError = False
+            try:
+                self.owm = OWM(secrets['owmid'])
+                self.mgr = self.owm.weather_manager()
+                observation = self.mgr.weather_at_place(secrets['owm_place'])
+            except Exception as err:
+                print(f'Other error occurred: {err}')
+                self.OWMError = True
+            if self.OWMError:
+                f = graphics.Font()
+                f.LoadFont('/home/pi/rpi-rgb-led-matrix/fonts/10x20.bdf')
+                white = graphics.Color(*WHITE)
+                graphics.DrawText(doubleBuffer, f, 8,22, white, "Hello")
+                graphics.DrawLine(doubleBuffer, 0, 0, 0, 31, white)
+                graphics.DrawLine(doubleBuffer, 1, 0, 1, 31, white)
+                graphics.DrawLine(doubleBuffer, 63, 0, 63, 31, white)
+                graphics.DrawLine(doubleBuffer, 62, 0, 62, 31, white)
+                graphics.DrawLine(doubleBuffer, 2, 0, 61, 0, white)
+                graphics.DrawLine(doubleBuffer, 2, 1, 61, 1, white)
+                graphics.DrawLine(doubleBuffer, 2, 30, 61, 30, white)
+                graphics.DrawLine(doubleBuffer, 2, 31, 61, 31, white)
+                return
+            w = observation.weather
+            self.wid = w.weather_code
+            status = w.detailed_status
+            temp = w.temperature('fahrenheit') # {'temp_max':10.5, 'temp':9.7, 'temp_min':4.5}
+            self.currentTemp = round(temp['temp'])
+        if self.now < datetime.now():
+            try:
+                observation = self.mgr.weather_at_place(secrets['owm_place'])
+                print("Jsut got the weather again.")
+            except Exception as err:
+                print(f'Other error occurred: {err}')
+                self.OWMError = True
+                f = graphics.Font()
+                f.LoadFont('/home/pi/rpi-rgb-led-matrix/fonts/10x20.bdf')
+                white = graphics.Color(*WHITE)
+                green = graphics.Color(*GREEN)
+                graphics.DrawText(doubleBuffer, f, 8,22, green, "Hello")
+                graphics.DrawLine(doubleBuffer, 0, 0, 0, 31, white)
+                graphics.DrawLine(doubleBuffer, 1, 0, 1, 31, white)
+                graphics.DrawLine(doubleBuffer, 63, 0, 63, 31, white)
+                graphics.DrawLine(doubleBuffer, 62, 0, 62, 31, white)
+                graphics.DrawLine(doubleBuffer, 2, 0, 61, 0, white)
+                graphics.DrawLine(doubleBuffer, 2, 1, 61, 1, white)
+                graphics.DrawLine(doubleBuffer, 2, 30, 61, 30, white)
+                graphics.DrawLine(doubleBuffer, 2, 31, 61, 31, white)
+                return
+            w = observation.weather
+            status = w.detailed_status
+            self.wid = w.weather_code
+            temp = w.temperature('fahrenheit')
+            self.currentTemp = round(temp['temp'])
+            self.now = datetime.now() + timedelta(minutes=10)
+        print(self.wid)
+        print(self.currentTemp)
+        print(self.weatherTable[self.wid][2])
+        icon = self.iconPathPrefix + self.weatherTable[self.wid][0]
+        image = Image.open(icon).convert('RGB')
+        doubleBuffer.Clear()
+        doubleBuffer.SetImage(image,0)
+        graphics.DrawText(doubleBuffer, self.font, 35, 18, graphics.Color(*self.colorRamp(self.currentTemp)), str(self.currentTemp)+"\u00B0")
+        graphics.DrawText(doubleBuffer, self.font2, 0, 30, graphics.Color(*WHITE), self.weatherTable[self.wid][1])
         return
 
     def run(self, doubleBuffer):

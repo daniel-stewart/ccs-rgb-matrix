@@ -3,10 +3,11 @@ import time
 import sys
 import os
 import random
+import socket
 from datetime import datetime, timedelta, time, date
 
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/..'))
-from rgbmatrix import RGBMatrix, RGBMatrixOptions
+from rgbmatrix import RGBMatrix, RGBMatrixOptions, graphics
 from matrixBase import MatrixBase
 from matrixDateTime import MatrixDateTime
 from matrixAB import MatrixAB
@@ -45,19 +46,19 @@ class MatrixDriver(object):
     def initialize(self):
         # Format is:
         #           +-----Start------+  +-----End--------+  +--Start-----+ +----End-----+
-        #   (class, (year, month, day), (year, month, day), (hour, minute),(hour, minute),  modPriority, time uninterrupted, Flag for overlay)
+        #   (class, (year, month, day), (year, month, day), (hour, minute),(hour, minute),  modPriority, time uninterrupted, initial value, Object)
         self.schedule = [
-            (MatrixSprite,   (2021, 1, 1), (2021, 12, 31),  (7, 0), (7, 30), 1, 2, 0),
-            (MatrixDateTime, (2021, 1, 1), (2021, 12, 31),  (8, 15), (23, 59), 1, 2, 0),
-            (MatrixAB,       (2021, 1, 1), (2021, 12, 31),  (7, 0), (23, 59), 1, 5, 0),
-            (MatrixWeather,  (2021, 1, 1), (2021, 12, 31),  (8, 15), (23, 59), 1, 3, 0),
-            (MatrixSprite,   (2021, 1, 1), (2021, 12, 31),  (8, 45), (23, 59), 3, 1, 0),
-            (MatrixImagePlayground, (2021, 1, 1), (2021, 12, 31), (8, 15), (23, 59), 2, 1, 0),
-            (MatrixImagePlayground, (2021, 1, 1), (2021, 12, 31), (11, 15), (12, 45), 1, 2, -2),
-            (MatrixScroller, (2021, 1, 1), (2021, 12, 31), (8, 15), (23, 59), 2, 3, 0),
-            (MatrixSpriteViewer, (2021, 1, 1), (2021, 12, 31), (7, 0), (7, 45), 1, 1, -1),
-            (MatrixSpriteViewer, (2021, 1, 1), (2021, 12, 31), (9, 0), (23, 59), 2, 1, -1),
-            (MatrixGifPlayer, (2021, 1, 1), (2021, 12, 31), (9, 0), (23, 59), 3, 1, -1)
+            [MatrixSprite,   (2021, 1, 1), (2021, 12, 31),  (7, 0), (7, 30), 1, 20, 0, None],
+            [MatrixDateTime, (2021, 1, 1), (2021, 12, 31),  (8, 15), (23, 59), 1, 20, 0, None],
+            [MatrixAB,       (2021, 1, 1), (2021, 12, 31),  (7, 0), (23, 59), 1, 30, 0, None],
+            [MatrixWeather,  (2021, 1, 1), (2021, 12, 31),  (8, 15), (23, 59), 1, 20, 0, None],
+            [MatrixSprite,   (2021, 1, 1), (2021, 12, 31),  (8, 45), (23, 59), 2, 15, 0, None],
+            [MatrixImagePlayground, (2021, 1, 1), (2021, 12, 31), (8, 15), (23, 59), 5, 10, 0, None],
+            [MatrixImagePlayground, (2021, 1, 1), (2021, 12, 31), (11, 15), (12, 45), 1, 20, -2, None],
+            [MatrixScroller, (2021, 1, 1), (2021, 12, 31), (8, 15), (23, 59), 2, 60, 0, None],
+            [MatrixSpriteViewer, (2021, 1, 1), (2021, 12, 31), (7, 0), (7, 45), 1, 20, -1, None],
+            [MatrixSpriteViewer, (2021, 1, 1), (2021, 12, 31), (9, 0), (23, 59), 4, 20, -1, None],
+            [MatrixGifPlayer, (2021, 1, 1), (2021, 12, 31), (9, 0), (23, 59), 3, 30, -1, None]
         ]
         self.entryNumber = 0
         self.count = 0
@@ -66,7 +67,7 @@ class MatrixDriver(object):
         now = datetime.now()
         hour = now.timetuple()[3]
         # Turn off the screen between 10 PM and 7 AM
-        if hour >= 24 or hour <= 6:
+        if hour >= 22 or hour <= 6:
             self.matrixBase = MatrixBase()
             self.matrix.Clear()
             self.doubleBuffer = self.matrix.SwapOnVSync(self.doubleBuffer)
@@ -87,12 +88,18 @@ class MatrixDriver(object):
                 startTime = time(entry[3][0], entry[3][1])
                 endTime = time(entry[4][0], entry[4][1])
                 if now.date() > startDate and now.date() < endDate and now.time() > startTime and now.time() < endTime and (self.count % entry[5] == 0):
-                    print("Switching to", self.entryNumber)
-                    self.matrixBase = entry[0](entry[7])
-                    self.doubleBuffer.Clear()
-                    self.matrixBase.initialize(64, 32, self.doubleBuffer)
+                    print("Switching to", self.entryNumber, entry[0])
+                    if entry[8] is None:
+                        entry[8] = entry[0](entry[7])
+                        self.matrixBase = entry[8]
+                        self.doubleBuffer.Clear()
+                        self.matrixBase.initialize(64, 32, self.doubleBuffer)
+                    else:
+                        self.matrixBase = entry[8]
+                        self.doubleBuffer.Clear()
+                        self.matrixBase.restart(self.doubleBuffer)
                     self.doubleBuffer = self.matrix.SwapOnVSync(self.doubleBuffer)
-                    self.changeTime = now + timedelta(minutes=entry[6])
+                    self.changeTime = now + timedelta(seconds=entry[6])
                     bFound = True
                 self.entryNumber = (self.entryNumber + 1) % len(self.schedule)
                 if self.entryNumber == 0:
@@ -113,11 +120,11 @@ class MatrixDriver(object):
         print("Running")
         self.doubleBuffer = self.matrix.CreateFrameCanvas()
         #self.matrixBase = MatrixAB(0)
-        #self.matrixBase = MatrixBase()
+        self.matrixBase = MatrixBase()
         #self.matrixBase = MatrixSprite(3)
-        #self.matrixBase = MatrixImagePlayground(1)
+        #self.matrixBase = MatrixImagePlayground(-2)
         #self.matrixBase = MatrixScroller(0)
-        self.matrixBase = MatrixSpriteViewer(random.randint(0,4))
+        #self.matrixBase = MatrixSpriteViewer(random.randint(0,4))
         #self.matrixBase = MatrixGifPlayer(-1)
         #self.matrixBase = MatrixStayOnTarget(0)
         #self.matrixBase = MatrixWeather(0)
@@ -125,7 +132,29 @@ class MatrixDriver(object):
         self.matrixBase.initialize(64, 32, self.doubleBuffer)
         self.matrix.Clear()
         self.doubleBuffer = self.matrix.SwapOnVSync(self.doubleBuffer)
-        self.changeTime = datetime.now() + timedelta(minutes=1)
+        self.changeTime = datetime.now() + timedelta(seconds=20)
+        font = graphics.Font()
+        font.LoadFont("/home/pi/rpi-rgb-led-matrix/fonts/5x8.bdf")
+        self.matrix.Clear()
+
+        hostname = socket.gethostname()
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        try:
+            s.connect(("8.8.8.8",80))
+            ip_address = s.getsockname()[0]
+            ip = ip_address.split(".")
+            offset = 8
+            #ip_address = socket.gethostbyname(hostname)
+            #ip_address = socket.getsockname()[0]
+            for num in ip:
+                graphics.DrawText(self.doubleBuffer, font, 10, offset, graphics.Color(244,244, 10), num)
+                offset += 8
+        except Exception as err:
+            graphics.DrawText(self.doubleBuffer, font, 1, 18, graphics.Color(255, 0, 0), "No Network")
+        
+        #length = graphics.DrawText(self.doubleBuffer, font, 1,12, graphics.Color(225, 255, 0), ip_address)
+        #length = graphics.DrawText(self.doubleBuffer, font, 1, 27, graphics.Color(0, 255, 0), hostname)
+        self.doubleBuffer = self.matrix.SwapOnVSync(self.doubleBuffer)
         # Initialize other classes and then keep them around??
         while True:
             # Or just re-create them each time they are needed??

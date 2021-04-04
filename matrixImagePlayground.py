@@ -34,21 +34,22 @@ class MatrixImagePlayground(MatrixBase):
         now = datetime.now()
         if self.level == -2:
         # What day is it?
-          if now.weekday() == 1:
+          print("Today is", now.weekday())
+          if now.weekday() == 0:
               self.level = 9
-          elif now.weekday() == 2:
+          elif now.weekday() == 1:
               self.level = 5
-          elif now.weekday() == 3:
+          elif now.weekday() == 2:
               self.level = 6
-          elif now.weekday() == 4:
+          elif now.weekday() == 3:
               self.level = 8
-          elif now.weekday() == 5:
+          elif now.weekday() == 4:
               self.level = 7
           else:
               self.level = random.randint(1,4)
     
     def initialize(self, width, height, double_buffer):
-        entries = [
+        self.entries = [
             [ ((0,0,'/home/pi/ccs-rgb-matrix/icons/CCSKnight.png'),),
               (33, 12, 'Go', '/home/pi/rpi-rgb-led-matrix/fonts/6x10.bdf', WHITE),
               (23, 28, 'Knights', '/home/pi/rpi-rgb-led-matrix/fonts/6x10.bdf', WHITE) ],
@@ -85,31 +86,47 @@ class MatrixImagePlayground(MatrixBase):
         ]
 
         fontList = set({})
-        for entry in entries:
+        for entry in self.entries:
             numEntries = len(entry)
             for i in range(1,numEntries):
                 fontList.add(entry[i][3])
-        fonts = dict({})
+        self.fonts = dict({})
         for font in fontList:
             print(font)
             f = graphics.Font()
             f.LoadFont(font)
-            fonts[font] = f
-        print(fonts.values())
-        self.level = self.level % len(entries)
-        icon = random.randint(0, len(entries[self.level][0])-1)
-        print(entries[self.level][0])
+            self.fonts[font] = f
+        print(self.fonts.values())
+        self.level = self.level % len(self.entries)
+        icon = random.randint(0, len(self.entries[self.level][0])-1)
+        print(self.entries[self.level][0])
         baseImage = Image.new('RGBA', (32, 32), (0,0,0,0))
-        image = Image.open(entries[self.level][0][icon][2])
+        image = Image.open(self.entries[self.level][0][icon][2])
         baseImage.alpha_composite(image, (0,0))
         baseImage = baseImage.convert('RGB')
-        double_buffer.SetImage(baseImage, entries[self.level][0][icon][0], entries[self.level][0][icon][1])
-        for i in range(1, len(entries[self.level])):
-            entry = entries[self.level][i]
+        double_buffer.SetImage(baseImage, self.entries[self.level][0][icon][0], self.entries[self.level][0][icon][1])
+        for i in range(1, len(self.entries[self.level])):
+            entry = self.entries[self.level][i]
             print(entry[3])
-            print(fonts[entry[3]])
+            print(self.fonts[entry[3]])
             print(entry[0])
-            graphics.DrawText(double_buffer, fonts[entry[3]], entry[0], entry[1], graphics.Color(*entry[4]), entry[2])
+            graphics.DrawText(double_buffer, self.fonts[entry[3]], entry[0], entry[1], graphics.Color(*entry[4]), entry[2])
+        return
+    
+    def restart(self, doubleBuffer):
+        icon = random.randint(0, len(self.entries[self.level][0])-1)
+        print(self.entries[self.level][0])
+        baseImage = Image.new('RGBA', (32, 32), (0,0,0,0))
+        image = Image.open(self.entries[self.level][0][icon][2])
+        baseImage.alpha_composite(image, (0,0))
+        baseImage = baseImage.convert('RGB')
+        doubleBuffer.SetImage(baseImage, self.entries[self.level][0][icon][0], self.entries[self.level][0][icon][1])
+        for i in range(1, len(self.entries[self.level])):
+            entry = self.entries[self.level][i]
+            print(entry[3])
+            print(self.fonts[entry[3]])
+            print(entry[0])
+            graphics.DrawText(doubleBuffer, self.fonts[entry[3]], entry[0], entry[1], graphics.Color(*entry[4]), entry[2])
         return
         
     def run(self, double_buffer):
