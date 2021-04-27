@@ -128,9 +128,9 @@ class MatrixAB(MatrixBase):
                     print(self.summary)
                     self.extraSummary = ""
                     if self.summary.find("Dialectic") != -1:
-                        self.extraSummary = "Dialectic"
+                        self.extraSummary = "Small Group"
                     elif self.summary.find("Seminar") != -1:
-                        self.extraSummary = "   Seminar"
+                        self.extraSummary = "Big Group"
                     elif self.summary.find("House Day") != -1:
                         self.extraSummary = "  House Day"
                     elif self.summary.find("Math Testing") != -1:
@@ -139,6 +139,8 @@ class MatrixAB(MatrixBase):
                         self.extraSummary = "2 Hour Delay"
                     elif self.summary.find("1 HR delay") != -1:
                         self.extraSummary = "1 Hour Delay"
+                    elif self.summary.find("SAT Testing") != -1:
+                        self.extraSummary = "SAT Testing"
                     #extraSummary = "    Seminar"
                     if self.summary == 'A' or self.summary.startswith('A '):
                         color = graphics.Color(255, 30, 40)
@@ -197,9 +199,9 @@ class MatrixAB(MatrixBase):
                         print(self.summary)
                         self.extraSummary = ""
                         if self.summary.find("Dialectic") != -1:
-                            self.extraSummary = "Dialectic"
+                            self.extraSummary = "Small Group"
                         elif self.summary.find("Seminar") != -1:
-                            self.extraSummary = "   Seminar"
+                            self.extraSummary = "Big Group"
                         elif self.summary.find("House Day") != -1:
                             self.extraSummary = "  House Day"
                         elif self.summary.find("Math Testing") != -1:
@@ -208,6 +210,8 @@ class MatrixAB(MatrixBase):
                             self.extraSummary = "2 Hour Delay"
                         elif self.summary.find("1 HR delay") != -1:
                             self.extraSummary = "1 Hour Delay"
+                        elif self.summary.find("SAT Testing") != -1:
+                            self.extraSummary = "SAT Testing"
                         #extraSummary = "    Seminar"
                         if self.summary == 'A' or self.summary.startswith('A '):
                             color = graphics.Color(255, 30, 40)

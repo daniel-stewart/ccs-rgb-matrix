@@ -27,6 +27,7 @@ Example:
 
 class MatrixImagePlayground(MatrixBase):
     def __init__(self, level):
+        self.origLevel = level
         if level == -1:
           self.level = random.randint(1,4)
         else:
@@ -114,6 +115,26 @@ class MatrixImagePlayground(MatrixBase):
         return
     
     def restart(self, doubleBuffer):
+        if self.origLevel == -1:
+          self.level = random.randint(1,4)
+        else:
+          self.level = self.origLevel
+        now = datetime.now()
+        if self.level == -2:
+        # What day is it?
+          print("Today is", now.weekday())
+          if now.weekday() == 0:
+              self.level = 9
+          elif now.weekday() == 1:
+              self.level = 5
+          elif now.weekday() == 2:
+              self.level = 6
+          elif now.weekday() == 3:
+              self.level = 8
+          elif now.weekday() == 4:
+              self.level = 7
+          else:
+              self.level = random.randint(1,4)
         icon = random.randint(0, len(self.entries[self.level][0])-1)
         print(self.entries[self.level][0])
         baseImage = Image.new('RGBA', (32, 32), (0,0,0,0))
