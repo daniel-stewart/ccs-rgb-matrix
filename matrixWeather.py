@@ -83,15 +83,15 @@ class MatrixWeather(MatrixBase):
             521:['010-rain-3.png',  '      Rain','Shower rain'],
             522:['040-rain.png',    'Heavy Rain','Heavy intensity shower rain'],
             531:['010-rain-3.png',  '      Rain','Ragged shower rain'],
-            600:['snowflake.png',   'Light Snow','Light snow'],
+            600:['018-snowflake.png',   'Light Snow','Light snow'],
             601:['008-snow-1.png',  '      Snow','Snow'],
             602:['042-snow.png',    'Heavy Snow','Heavy snow'],
             611:['008-snow-1.png',  '     Sleet','Sleet'],
             612:['008-snow-1.png',  'Light Sleet','Light shower sleet'],
             613:['008-snow-1.png',  '      Snow','Shower sleet'],
-            615:['snowflake.png',   '      Snow','Light rain and snow'],
+            615:['018-snowflake.png',   '      Snow','Light rain and snow'],
             616:['042-snow.png',    'Rain & Snow','Rain and snow'],
-            620:['snowflake.png',   'Light Snow','Light shower snow'],
+            620:['018-snowflake.png',   'Light Snow','Light shower snow'],
             621:['008-snow-1.png',  'Shower Snow','Shower snow'],
             622:['042-snow.png',    'Heavy Snow','Heavy shower snow'],
             701:['015-clouds-3.png','      Mist','Mist'],
@@ -215,7 +215,7 @@ class MatrixWeather(MatrixBase):
         if self.now < datetime.now():
             try:
                 observation = self.mgr.weather_at_place(secrets['owm_place'])
-                print("Jsut got the weather again.")
+                print("Just got the weather again.")
             except Exception as err:
                 print(f'Other error occurred: {err}')
                 self.OWMError = True

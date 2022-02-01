@@ -127,13 +127,11 @@ class MatrixAB(MatrixBase):
                 if self.now.month == start.month and self.now.day == start.day:
                     print(self.summary)
                     self.extraSummary = ""
-                    if self.summary.find("Dialectic") != -1:
-                        self.extraSummary = "Small Group"
-                    elif self.summary.find("Seminar") != -1:
-                        self.extraSummary = "Big Group"
-                    elif self.summary.find("House Day") != -1:
-                        self.extraSummary = "  House Day"
-                    elif self.summary.find("Math Testing") != -1:
+                    if self.summary.find("B Day 2") != -1 or self.summary.find("B Day 4") != -1 or self.summary.find("B Day 8") != -1:
+                        self.extraSummary = "   Seminar"
+                    elif self.summary.find("B Day 10") != -1:
+                        self.extraSummary = "Convocation"
+                    elif self.summary.find("B Day 6") != -1:
                         self.extraSummary = "Math Testing"
                     elif self.summary.find("2 HR delay") != -1:
                         self.extraSummary = "2 Hour Delay"
@@ -142,13 +140,13 @@ class MatrixAB(MatrixBase):
                     elif self.summary.find("SAT Testing") != -1:
                         self.extraSummary = "SAT Testing"
                     #extraSummary = "    Seminar"
-                    if self.summary == 'A' or self.summary.startswith('A '):
+                    if self.summary == 'A' or self.summary.startswith('A Day'):
                         color = graphics.Color(255, 30, 40)
                         display2 = "A"
                         print(self.summary)
                         self.createDay(display2, doubleBuffer, color, num=3, extraSummary=self.extraSummary)
                         return
-                    elif self.summary == 'B' or self.summary.startswith('B '):
+                    elif self.summary == 'B' or self.summary.startswith('B Day'):
                         color = graphics.Color(20, 100, 255)
                         display2 = "B"
                         print(self.summary)
@@ -164,8 +162,10 @@ class MatrixAB(MatrixBase):
     def restart(self, doubleBuffer):
         if self.error or self.now.hour != datetime.now().hour:
             try:
+                print('Getting the calendar again')
                 r = requests.get(secrets['schedule_url'])
                 r.raise_for_status()
+                self.error = False
             except HTTPError as http_err:
                 print(f'HTTPError occurred: {http_err}')
                 self.error = True
@@ -198,13 +198,11 @@ class MatrixAB(MatrixBase):
                     if self.now.month == start.month and self.now.day == start.day:
                         print(self.summary)
                         self.extraSummary = ""
-                        if self.summary.find("Dialectic") != -1:
-                            self.extraSummary = "Small Group"
-                        elif self.summary.find("Seminar") != -1:
-                            self.extraSummary = "Big Group"
-                        elif self.summary.find("House Day") != -1:
-                            self.extraSummary = "  House Day"
-                        elif self.summary.find("Math Testing") != -1:
+                        if self.summary.find("B Day 2") != -1 or self.summary.find("B Day 4") != -1 or self.summary.find("B Day 8") != -1:
+                            self.extraSummary = "   Seminar"
+                        elif self.summary.find("B Day 10") != -1:
+                            self.extraSummary = "Convocation"
+                        elif self.summary.find("B Day 6") != -1:
                             self.extraSummary = "Math Testing"
                         elif self.summary.find("2 HR delay") != -1:
                             self.extraSummary = "2 Hour Delay"
@@ -213,13 +211,13 @@ class MatrixAB(MatrixBase):
                         elif self.summary.find("SAT Testing") != -1:
                             self.extraSummary = "SAT Testing"
                         #extraSummary = "    Seminar"
-                        if self.summary == 'A' or self.summary.startswith('A '):
+                        if self.summary == 'A' or self.summary.startswith('A Day'):
                             color = graphics.Color(255, 30, 40)
                             display2 = "A"
                             print(self.summary)
                             self.createDay(display2, doubleBuffer, color, num=3, extraSummary=self.extraSummary)
                             return
-                        elif self.summary == 'B' or self.summary.startswith('B '):
+                        elif self.summary == 'B' or self.summary.startswith('B Day'):
                             color = graphics.Color(20, 100, 255)
                             display2 = "B"
                             print(self.summary)

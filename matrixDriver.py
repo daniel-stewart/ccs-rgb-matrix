@@ -48,17 +48,22 @@ class MatrixDriver(object):
         #           +-----Start------+  +-----End--------+  +--Start-----+ +----End-----+
         #   (class, (year, month, day), (year, month, day), (hour, minute),(hour, minute),  modPriority, time uninterrupted, initial value, Object)
         self.schedule = [
-            [MatrixSprite,   (2021, 1, 1), (2021, 12, 31),  (7, 0), (7, 30), 1, 20, 0, None],
-            [MatrixDateTime, (2021, 1, 1), (2021, 12, 31),  (8, 15), (23, 59), 1, 20, 0, None],
-            [MatrixAB,       (2021, 1, 1), (2021, 12, 31),  (7, 0), (23, 59), 1, 30, 0, None],
-            [MatrixWeather,  (2021, 1, 1), (2021, 12, 31),  (8, 15), (23, 59), 1, 20, 0, None],
-            [MatrixSprite,   (2021, 1, 1), (2021, 12, 31),  (8, 45), (23, 59), 2, 15, 0, None],
-            [MatrixImagePlayground, (2021, 1, 1), (2021, 12, 31), (8, 15), (23, 59), 5, 10, 0, None],
-            [MatrixImagePlayground, (2021, 1, 1), (2021, 12, 31), (11, 15), (12, 45), 1, 20, -2, None],
-            [MatrixScroller, (2021, 1, 1), (2021, 12, 31), (8, 15), (23, 59), 2, 60, 0, None],
-            [MatrixSpriteViewer, (2021, 1, 1), (2021, 12, 31), (7, 0), (7, 45), 1, 20, -1, None],
-            [MatrixSpriteViewer, (2021, 1, 1), (2021, 12, 31), (9, 0), (23, 59), 4, 20, -1, None],
-            [MatrixGifPlayer, (2021, 1, 1), (2021, 12, 31), (9, 0), (23, 59), 3, 30, -1, None]
+            [MatrixSprite,   (2021, 1, 1), (2030, 12, 31),  (7, 0), (7, 30), 1, 20, 0, None],
+            [MatrixDateTime, (2021, 1, 1), (2030, 12, 31),  (8, 15), (23, 59), 1, 20, 0, None],
+            [MatrixAB,       (2021, 1, 1), (2030, 12, 31),  (7, 0), (23, 59), 1, 30, 0, None],
+            [MatrixWeather,  (2021, 1, 1), (2030, 12, 31),  (8, 15), (23, 59), 1, 20, 0, None],
+            [MatrixScroller, (2021, 8, 1), (2030, 12, 31),  (7, 0), (23, 59), 3, 10, 1, None],
+            [MatrixSprite,   (2021, 1, 1), (2030, 12, 31),  (8, 45), (23, 59), 2, 15, 0, None],
+            [MatrixImagePlayground, (2022, 12, 14), (2022, 12, 26), (7, 0), (23, 59), 1, 15, 10, None],
+            [MatrixImagePlayground, (2023, 12, 14), (2023, 12, 26), (7, 0), (23, 59), 1, 15, 10, None],
+            [MatrixImagePlayground, (2021, 1, 1), (2030, 12, 31), (8, 15), (23, 59), 5, 10, 0, None],
+            [MatrixImagePlayground, (2021, 8, 15), (2030, 12, 31), (11, 15), (12, 45), 1, 20, -2, None],
+            [MatrixImagePlayground, (2021, 1, 1), (2030, 12, 31), (7, 0), (8, 15), 1, 20, -3, None],
+            [MatrixImagePlayground, (2022, 2, 14), (2022, 2, 15), (7, 0), (23, 15), 1, 20, 16, None],
+            [MatrixScroller, (2021, 1, 1), (2030, 12, 31), (8, 15), (23, 59), 2, 60, 0, None],
+            [MatrixSpriteViewer, (2021, 1, 1), (2030, 12, 31), (7, 0), (7, 45), 1, 20, -1, None],
+            [MatrixSpriteViewer, (2021, 1, 1), (2030, 12, 31), (9, 0), (23, 59), 4, 20, -1, None],
+            [MatrixGifPlayer, (2021, 1, 1), (2030, 12, 31), (9, 0), (23, 59), 3, 30, -1, None]
         ]
         self.entryNumber = 0
         self.count = 0
@@ -87,7 +92,7 @@ class MatrixDriver(object):
                 endDate = date(entry[2][0], entry[2][1], entry[2][2])
                 startTime = time(entry[3][0], entry[3][1])
                 endTime = time(entry[4][0], entry[4][1])
-                if now.date() > startDate and now.date() < endDate and now.time() > startTime and now.time() < endTime and (self.count % entry[5] == 0):
+                if now.date() >= startDate and now.date() < endDate and now.time() >= startTime and now.time() < endTime and (self.count % entry[5] == 0):
                     print("Switching to", self.entryNumber, entry[0])
                     if entry[8] is None:
                         entry[8] = entry[0](entry[7])
@@ -122,7 +127,7 @@ class MatrixDriver(object):
         #self.matrixBase = MatrixAB(0)
         self.matrixBase = MatrixBase()
         #self.matrixBase = MatrixSprite(3)
-        #self.matrixBase = MatrixImagePlayground(-2)
+        #self.matrixBase = MatrixImagePlayground(8)
         #self.matrixBase = MatrixScroller(0)
         #self.matrixBase = MatrixSpriteViewer(random.randint(0,4))
         #self.matrixBase = MatrixGifPlayer(-1)

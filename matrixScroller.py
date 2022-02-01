@@ -7,6 +7,10 @@ YELLOW = (255, 255, 0)
 BLUEWHITE = (128, 128, 255)
 GREEN = (0, 255, 0)
 REDISH = (255, 128, 128)
+WHITE = (255, 255, 255)
+ORANGE = (255, 128, 0)
+CARROT = (255, 140, 25)
+GOLDEN_BROWN = (153, 102, 0)
 
 class MatrixScroller(MatrixBase):
     def __init__(self, level):
@@ -29,17 +33,22 @@ class MatrixScroller(MatrixBase):
                 self.my_text = [("All   we   have   to   decide   is   what   to   do   with   the   time   that   is   given   us.", self.font2, YELLOW),
                                 ("There    is    some   good   in   this   world,   and    it's   worth   fighting   for.", self.font2, YELLOW),
                                 ("Made by the CCS Computer Club", self.font1, BLUEWHITE),
-                                ("Commit your work to the Lord, and your plans will be established. - Proverbs 16:3", self.font1, YELLOW),
+                                ("I am the bread of life; whoever comes to me shall not hunger, and whoever believes in me shall never thirst. - Jesus", self.font1, YELLOW),
                                 ("For God so loved the world, that He gave His only Son, that whoever believes in him should not perish but have eternal life", self.font3, GREEN),
                                 ("Made by the Computer Club. You should join us!", self.font1, BLUEWHITE),
-                                ("Take my instruction instead of silver, and knowledge rather than choice gold, for wisdom is better than jewels, and all that you may desire cannot compare with her. - Proverbs 8:10-11", self.font4, REDISH)
+                                ("Rejoice in the Lord always; again I say rejoice. - Philippians 4:4", self.font3, WHITE),
+                                ("Clothe yourselves, all of you, with humility toward one another, for 'God opposes the proud but gives grace to the humble'. - 1 Peter 5:5", self.font4, REDISH),
+                                ("Knowing is not enough; we must apply. Being willing is not enough; we must do. - Leonardo da Vinci", self.font1, ORANGE),
+                                ("Every Christian would agree that a man's spiritual health is exactly proportional to his love for God. - CS Lewis", self.font3, WHITE),
+                                ("Resolution One: I will live for God. Resolution Two: If no one else does, I still will. - Jonathan Edwards", self.font4, YELLOW),
+                                ("Pray like it all depends on God, then when you are done, go work like it all depends on you. - Martin Luther", self.font1, GOLDEN_BROWN)
                             ]
                 print("Len of my_text:", len(self.my_text))
                 self.length = len(self.my_text)
         elif self.level == 1:
                 self.pos = 32
                 self.index = 0
-                self.images = ["/path/to/image/image1.png", "/path/to/image/image2.png", "/path/to/image/image3.png", "/path/to/image/image4.png"]
+                self.images = ["/home/pi/ccs-rgb-matrix/images/logo64.png"]
                 self.image = Image.open(self.images[self.index]).convert('RGB')
                 double_buffer.SetImage(self.image, 0, self.pos)
                 self.length = len(self.images)

@@ -30,11 +30,13 @@ class MatrixImagePlayground(MatrixBase):
         self.origLevel = level
         if level == -1:
           self.level = random.randint(1,4)
+        elif level == -3:
+          self.level = random.randint(11,15)
         else:
           self.level = level
         now = datetime.now()
         if self.level == -2:
-        # What day is it?
+          # What day is it?
           print("Today is", now.weekday())
           if now.weekday() == 0:
               self.level = 9
@@ -51,39 +53,77 @@ class MatrixImagePlayground(MatrixBase):
     
     def initialize(self, width, height, double_buffer):
         self.entries = [
+            #0
             [ ((0,0,'/home/pi/ccs-rgb-matrix/icons/CCSKnight.png'),),
               (33, 12, 'Go', '/home/pi/rpi-rgb-led-matrix/fonts/6x10.bdf', WHITE),
               (23, 28, 'Knights', '/home/pi/rpi-rgb-led-matrix/fonts/6x10.bdf', WHITE) ],
+            #1
             [ ((0,0,'/home/pi/ccs-rgb-matrix/icons/MVIconsPixelDailies/cupcake2.png'),),
               (23, 14, 'Need a', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', PINK),
               (3, 28, 'Cupcake?', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', YELLOW),],
+            #2
             [ ((0,0,'/home/pi/ccs-rgb-matrix/icons/MVIconsPixelDailies/lightbulb.png'),),
               (48, 10, 'I', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', YELLOW),
               (37, 21, 'have', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', YELLOW),
               (15, 32, 'an idea!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', YELLOW),],
+            #3
             [ ((37,0,'/home/pi/ccs-rgb-matrix/icons/MVIconsPixelDailies/juice-carton.png'),),
               (0, 9, 'Orange', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', ORANGE),
               (9, 20, 'juice', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),
               (0, 29, 'is good!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', CYAN),],
+            #4
             [ ((32,0,'/home/pi/ccs-rgb-matrix/icons/MVIconsPixelDailies/onion-rings.png'),),
               (0, 9, 'Mmm...', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', BLUE),
               (0, 20, 'Onion', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', ORANGE),
               (0, 29, 'Rings!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', PINK),],
+            #5
             [ ((36,0,'/home/pi/ccs-rgb-matrix/icons/MVIconsPixelDailies/straw-drink.png'),),
               (0, 12, 'Tropical', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', CYAN),
               (0, 28, 'Smoothie!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', PINK),],
+            #6
             [ ((36,0,'/home/pi/ccs-rgb-matrix/icons/MVIconsPixelDailies/chicken-strips.png'),),
               (0, 12, 'Chik-', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),
               (0, 28, 'Fil-A!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),],
+            #7
             [ ((32,0,'/home/pi/ccs-rgb-matrix/icons/pizza32x32.png'),),
               (0, 15, 'Pizza!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', GREEN),
               (0, 28, '', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),],
-            [ ((32,0,'/home/pi/ccs-rgb-matrix/icons/taco32x32.png'),),
-              (0, 15, 'Taco', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),
-              (0, 28, 'Day!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),],
+            #8
+            [ ((32,0,'/home/pi/ccs-rgb-matrix/icons/15_burger.png'),),
+              (0, 15, 'Red', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),
+              (0, 28, 'Robin!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),],
+            #9
             [ ((32,0,'/home/pi/ccs-rgb-matrix/icons/sandwich32x32.png'),),
               (0, 20, 'Panera', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', GREEN),
               (0, 28, '', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),],
+            #10
+            [ ((32, 0, '/home/pi/ccs-rgb-matrix/icons/christmas_tree.png'),),
+              (0, 15, 'Merry', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),
+              (0, 28, 'Christmas!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),],
+            #11
+            [ ((32, 0, '/home/pi/ccs-rgb-matrix/icons/school.png'),),
+              (0, 15, 'Welcome', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', GREEN),
+              (0, 28, 'to CCS!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', GREEN),],
+            #12
+            [ ((32, 0, '/home/pi/ccs-rgb-matrix/icons/education.png'),),
+              (0, 15, 'School', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', ORANGE),
+              (0, 28, 'Again...', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', ORANGE),],
+            #13
+            [ ((32, 0, '/home/pi/ccs-rgb-matrix/icons/thumbsUp.png'),),
+              (0, 15, 'Have a', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),
+              (0, 28, 'Great Day!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),],
+            #14
+            [ ((32, 0, '/home/pi/ccs-rgb-matrix/icons/youreback.png'),),
+              (0, 15, "You're", '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),
+              (0, 28, 'Back!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),],
+            #15
+            [ ((32, 0, '/home/pi/ccs-rgb-matrix/icons/checked.png'),),
+              (0, 15, 'Ready for', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', PINK),
+              (0, 28, 'the Day?', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', PINK),],
+            #16
+            [ ((32, 0, '/home/pi/ccs-rgb-matrix/icons/valentines-day.png'),),
+              (0, 15, 'Valentines', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),
+              (0, 28, 'Day!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),],
         ]
 
         fontList = set({})
@@ -117,6 +157,8 @@ class MatrixImagePlayground(MatrixBase):
     def restart(self, doubleBuffer):
         if self.origLevel == -1:
           self.level = random.randint(1,4)
+        elif self.origLevel == -3:
+          self.level = random.randint(11,15)
         else:
           self.level = self.origLevel
         now = datetime.now()
