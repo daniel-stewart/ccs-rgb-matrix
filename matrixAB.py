@@ -18,6 +18,7 @@ class MatrixAB(MatrixBase):
     def __init__(self, number):
         self.level = number
         self.error = False
+        self.extraSummary = ""
 
     def DrawBox(self, doubleBuffer, x0, y0, x1, y1, color, thickness=1):
         graphics.DrawLine(doubleBuffer, x0, y0, x0, y1, color)
