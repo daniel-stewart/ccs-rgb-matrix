@@ -57,7 +57,7 @@ class MatrixDriver(object):
             [MatrixImagePlayground, (2022, 12, 14), (2022, 12, 26), (7, 0), (23, 59), 1, 15, 10, None],
             [MatrixImagePlayground, (2023, 12, 14), (2023, 12, 26), (7, 0), (23, 59), 1, 15, 10, None],
             [MatrixImagePlayground, (2021, 1, 1), (2030, 12, 31), (8, 15), (23, 59), 5, 10, 0, None],
-            [MatrixImagePlayground, (2021, 8, 15), (2030, 12, 31), (11, 15), (12, 45), 1, 20, -2, None],
+            [MatrixImagePlayground, (2022, 8, 15), (2030, 12, 31), (11, 15), (13, 0), 1, 20, -2, None],
             [MatrixImagePlayground, (2021, 1, 1), (2030, 12, 31), (7, 0), (8, 15), 1, 20, -3, None],
             [MatrixImagePlayground, (2022, 2, 14), (2022, 2, 15), (7, 0), (23, 15), 1, 20, 16, None],
             [MatrixScroller, (2021, 1, 1), (2030, 12, 31), (8, 15), (23, 59), 2, 60, 0, None],

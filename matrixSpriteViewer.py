@@ -11,7 +11,8 @@ Format for sprite sheets
 String - Name/location of Sprite Sheet
 A tuple of width, height of each icon
 A tuple with row elements, each element is the number of icons in that row.
-('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Adventurer_Sprite_Sheet_v1.1.png', (32,32), (13, 8, 10, 10, 10, 6, 4, 7, 13, 8, 10, 10, 10, 6, 4, 7))
+A number indicating which row index should be used for the character sprite. Used to set self.set
+('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Adventurer_Sprite_Sheet_v1.1.png', (32,32), (13, 8, 10, 10, 10, 6, 4, 7, 13, 8, 10, 10, 10, 6, 4, 7), 1)
 
 '''
 class MatrixSpriteViewer(MatrixBase):
@@ -135,16 +136,16 @@ class MatrixSpriteViewer(MatrixBase):
     def initialize(self, width, height, doubleBuffer):
         self.error = False
         self.spriteSheets = [
-            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Adventurer_Sprite_Sheet_v1.1.png', (32,32), (13, 8, 10, 10, 10, 6, 4, 7, 13, 8, 10, 10, 10, 6, 4, 7)),
-            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Archaeologist_Sprite_Sheet.png', (64,32), (8, 8, 7, 6, 8, 4, 5)),
-            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Adventurer_Female_Sprite_Sheet.png', (32, 32), (6, 8, 9, 4, 7, 9, 6)),
-            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Dwarf_Sprite_Sheet.png', (64,32), (5, 8, 7, 6, 2, 5, 4, 7)),
-            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/SpaceSoldierSpriteSheet.png', (32, 32), (4, 8, 5, 3, 7)),
-            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Torch.png', (8, 16), (10,)),
-            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Decorations.png', (16, 16), (4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)),
-            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Banner.png', (32,32), (4, 4)),
-            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Destructible_Objects_Sprite_Sheet.png', (64, 64), (3, 7, 3, 7, 3 ,7, 3, 6, 3, 6, 3, 5)),
-            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/FreeCuteTileset/Decors.png', (56,28), (2, 2, 2, 4))
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Adventurer_Sprite_Sheet_v1.1.png', (32,32), (13, 8, 10, 10, 10, 6, 4, 7, 13, 8, 10, 10, 10, 6, 4, 7), 1),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Archaeologist_Sprite_Sheet.png', (64,32), (8, 8, 7, 6, 8, 4, 5), 1),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Martian_Red_Running.png', (32, 32), (4,), 0),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Dwarf_Sprite_Sheet.png', (64,32), (5, 8, 7, 6, 2, 5, 4, 7), 1),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/FoxSpriteSheet.png', (32, 32), (5, 14, 8, 11, 5, 6, 7), 2),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Torch.png', (8, 16), (10,), 1),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Decorations.png', (16, 16), (4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1), 1),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Banner.png', (32,32), (4, 4), 1),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/Destructible_Objects_Sprite_Sheet.png', (64, 64), (3, 7, 3, 7, 3 ,7, 3, 6, 3, 6, 3, 5), 1),
+            ('/home/pi/ccs-rgb-matrix/icons/spriteSheets/FreeCuteTileset/Decors.png', (56,28), (2, 2, 2, 4), 1)
         ]
         numberOfSpriteSheets = len(self.spriteSheets)
         self.loadImages()
@@ -180,7 +181,7 @@ class MatrixSpriteViewer(MatrixBase):
         self.layer2X = 0
         self.layer3X = 0
         self.image = Image.open(self.spriteSheets[self.level][0]).convert('RGBA')
-        self.set = 1
+        self.set = self.spriteSheets[self.level][3]
         self.index = 0
         self.width = width
         self.height = height
@@ -253,6 +254,7 @@ class MatrixSpriteViewer(MatrixBase):
     def restart(self, doubleBuffer):
         if self.origLevel == -1:
             self.level = random.randint(0,4)
+            self.set = self.spriteSheets[self.level][3]
             self.image = Image.open(self.spriteSheets[self.level][0]).convert('RGBA')
             self.x = -self.spriteSheets[self.level][1][0]   # This puts the character off the screen at the beginning.
             self.y = 0

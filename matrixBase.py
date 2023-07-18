@@ -10,4 +10,7 @@ class MatrixBase(object):
 
 	def run(self, doubleBuffer):
 		return False
+	
+	def skip(self, date, time):
+		return False
 

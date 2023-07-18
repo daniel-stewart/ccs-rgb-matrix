@@ -33,15 +33,15 @@ class MatrixScroller(MatrixBase):
                 self.my_text = [("All   we   have   to   decide   is   what   to   do   with   the   time   that   is   given   us.", self.font2, YELLOW),
                                 ("There    is    some   good   in   this   world,   and    it's   worth   fighting   for.", self.font2, YELLOW),
                                 ("Made by the CCS Computer Club", self.font1, BLUEWHITE),
-                                ("I am the bread of life; whoever comes to me shall not hunger, and whoever believes in me shall never thirst. - Jesus", self.font1, YELLOW),
+                                ("How is your day so far?", self.font1, YELLOW),
                                 ("For God so loved the world, that He gave His only Son, that whoever believes in him should not perish but have eternal life", self.font3, GREEN),
-                                ("Made by the Computer Club. You should join us!", self.font1, BLUEWHITE),
-                                ("Rejoice in the Lord always; again I say rejoice. - Philippians 4:4", self.font3, WHITE),
-                                ("Clothe yourselves, all of you, with humility toward one another, for 'God opposes the proud but gives grace to the humble'. - 1 Peter 5:5", self.font4, REDISH),
-                                ("Knowing is not enough; we must apply. Being willing is not enough; we must do. - Leonardo da Vinci", self.font1, ORANGE),
-                                ("Every Christian would agree that a man's spiritual health is exactly proportional to his love for God. - CS Lewis", self.font3, WHITE),
-                                ("Resolution One: I will live for God. Resolution Two: If no one else does, I still will. - Jonathan Edwards", self.font4, YELLOW),
-                                ("Pray like it all depends on God, then when you are done, go work like it all depends on you. - Martin Luther", self.font1, GOLDEN_BROWN)
+                                ("Computers ... good stuff!", self.font1, BLUEWHITE),
+                                ("Do what is right and good - Deut 6:18", self.font3, WHITE),
+                                ("Good luck today!", self.font4, REDISH),
+                                ("So... how about them Knights?", self.font1, ORANGE),
+                                ("Hey guys!! It's me! Just saying hello...", self.font3, WHITE),
+                                ("OK... so... anything exciting happening?", self.font4, YELLOW),
+                                ("Do your homework?", self.font1, GOLDEN_BROWN)
                             ]
                 print("Len of my_text:", len(self.my_text))
                 self.length = len(self.my_text)

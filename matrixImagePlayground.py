@@ -82,16 +82,16 @@ class MatrixImagePlayground(MatrixBase):
               (0, 28, 'Smoothie!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', PINK),],
             #6
             [ ((36,0,'/home/pi/ccs-rgb-matrix/icons/MVIconsPixelDailies/chicken-strips.png'),),
-              (0, 12, 'Chik-', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),
+              (0, 12, 'Chick-', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),
               (0, 28, 'Fil-A!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', RED),],
             #7
             [ ((32,0,'/home/pi/ccs-rgb-matrix/icons/pizza32x32.png'),),
               (0, 15, 'Pizza!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', GREEN),
               (0, 28, '', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),],
             #8
-            [ ((32,0,'/home/pi/ccs-rgb-matrix/icons/15_burger.png'),),
-              (0, 15, 'Red', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),
-              (0, 28, 'Robin!', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),],
+            [ ((32,0,'/home/pi/ccs-rgb-matrix/icons/subsandwich.png'),),
+              (0, 15, 'Jersey', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),
+              (0, 28, "Mike's", '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', WHITE),],
             #9
             [ ((32,0,'/home/pi/ccs-rgb-matrix/icons/sandwich32x32.png'),),
               (0, 20, 'Panera', '/home/pi/rpi-rgb-led-matrix/fonts/helvR12.bdf', GREEN),
